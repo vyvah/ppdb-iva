@@ -1,292 +1,216 @@
- <div class="row">
-     <!-- [ sample-page ] start -->
-     <div class="col-md-6 col-xl-3">
-         <div class="card">
-             <div class="card-body">
-                 <h6 class="mb-2 f-w-400 text-muted">Total Page Views</h6>
-                 <h4 class="mb-3">4,42,236 <span class="badge bg-light-primary border border-primary"><i
-                             class="ti ti-trending-up"></i> 59.3%</span></h4>
-                 <p class="mb-0 text-muted text-sm">You made an extra <span class="text-primary">35,000</span> this
-                     year
-                 </p>
-             </div>
-         </div>
-     </div>
-     <div class="col-md-6 col-xl-3">
-         <div class="card">
-             <div class="card-body">
-                 <h6 class="mb-2 f-w-400 text-muted">Total Users</h6>
-                 <h4 class="mb-3">78,250 <span class="badge bg-light-success border border-success"><i
-                             class="ti ti-trending-up"></i> 70.5%</span></h4>
-                 <p class="mb-0 text-muted text-sm">You made an extra <span class="text-success">8,900</span> this
-                     year</p>
-             </div>
-         </div>
-     </div>
-     <div class="col-md-6 col-xl-3">
-         <div class="card">
-             <div class="card-body">
-                 <h6 class="mb-2 f-w-400 text-muted">Total Order</h6>
-                 <h4 class="mb-3">18,800 <span class="badge bg-light-warning border border-warning"><i
-                             class="ti ti-trending-down"></i> 27.4%</span></h4>
-                 <p class="mb-0 text-muted text-sm">You made an extra <span class="text-warning">1,943</span> this
-                     year</p>
-             </div>
-         </div>
-     </div>
-     <div class="col-md-6 col-xl-3">
-         <div class="card">
-             <div class="card-body">
-                 <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
-                 <h4 class="mb-3">$35,078 <span class="badge bg-light-danger border border-danger"><i
-                             class="ti ti-trending-down"></i> 27.4%</span></h4>
-                 <p class="mb-0 text-muted text-sm">You made an extra <span class="text-danger">$20,395</span> this
-                     year
-                 </p>
-             </div>
-         </div>
-     </div>
+@extends('layouts.dashboard')
+@section('title', 'Dashboard Admin')
 
-     <div class="col-md-12 col-xl-8">
-         <div class="d-flex align-items-center justify-content-between mb-3">
-             <h5 class="mb-0">Unique Visitor</h5>
-             <ul class="nav nav-pills justify-content-end mb-0" id="chart-tab-tab" role="tablist">
-                 <li class="nav-item" role="presentation">
-                     <button class="nav-link" id="chart-tab-home-tab" data-bs-toggle="pill"
-                         data-bs-target="#chart-tab-home" type="button" role="tab" aria-controls="chart-tab-home"
-                         aria-selected="true">Month</button>
-                 </li>
-                 <li class="nav-item" role="presentation">
-                     <button class="nav-link active" id="chart-tab-profile-tab" data-bs-toggle="pill"
-                         data-bs-target="#chart-tab-profile" type="button" role="tab"
-                         aria-controls="chart-tab-profile" aria-selected="false">Week</button>
-                 </li>
-             </ul>
-         </div>
-         <div class="card">
-             <div class="card-body">
-                 <div class="tab-content" id="chart-tab-tabContent">
-                     <div class="tab-pane" id="chart-tab-home" role="tabpanel" aria-labelledby="chart-tab-home-tab"
-                         tabindex="0">
-                         <div id="visitor-chart-1"></div>
-                     </div>
-                     <div class="tab-pane show active" id="chart-tab-profile" role="tabpanel"
-                         aria-labelledby="chart-tab-profile-tab" tabindex="0">
-                         <div id="visitor-chart"></div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
-     <div class="col-md-12 col-xl-4">
-         <h5 class="mb-3">Income Overview</h5>
-         <div class="card">
-             <div class="card-body">
-                 <h6 class="mb-2 f-w-400 text-muted">This Week Statistics</h6>
-                 <h3 class="mb-3">$7,650</h3>
-                 <div id="income-overview-chart"></div>
-             </div>
-         </div>
-     </div>
+@section('content')
 
-     <div class="col-md-12 col-xl-8">
-         <h5 class="mb-3">Recent Orders</h5>
-         <div class="card tbl-card">
-             <div class="card-body">
-                 <div class="table-responsive">
-                     <table class="table table-hover table-borderless mb-0">
-                         <thead>
-                             <tr>
-                                 <th>TRACKING NO.</th>
-                                 <th>PRODUCT NAME</th>
-                                 <th>TOTAL ORDER</th>
-                                 <th>STATUS</th>
-                                 <th class="text-end">TOTAL AMOUNT</th>
-                             </tr>
-                         </thead>
-                         <tbody>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Camera Lens</td>
-                                 <td>40</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-danger f-10 m-r-5"></i>Rejected</span>
-                                 </td>
-                                 <td class="text-end">$40,570</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Laptop</td>
-                                 <td>300</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-warning f-10 m-r-5"></i>Pending</span>
-                                 </td>
-                                 <td class="text-end">$180,139</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Mobile</td>
-                                 <td>355</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-success f-10 m-r-5"></i>Approved</span>
-                                 </td>
-                                 <td class="text-end">$180,139</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Camera Lens</td>
-                                 <td>40</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-danger f-10 m-r-5"></i>Rejected</span>
-                                 </td>
-                                 <td class="text-end">$40,570</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Laptop</td>
-                                 <td>300</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-warning f-10 m-r-5"></i>Pending</span>
-                                 </td>
-                                 <td class="text-end">$180,139</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Mobile</td>
-                                 <td>355</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-success f-10 m-r-5"></i>Approved</span>
-                                 </td>
-                                 <td class="text-end">$180,139</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Camera Lens</td>
-                                 <td>40</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-danger f-10 m-r-5"></i>Rejected</span>
-                                 </td>
-                                 <td class="text-end">$40,570</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Laptop</td>
-                                 <td>300</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-warning f-10 m-r-5"></i>Pending</span>
-                                 </td>
-                                 <td class="text-end">$180,139</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Mobile</td>
-                                 <td>355</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-success f-10 m-r-5"></i>Approved</span>
-                                 </td>
-                                 <td class="text-end">$180,139</td>
-                             </tr>
-                             <tr>
-                                 <td><a href="#" class="text-muted">84564564</a></td>
-                                 <td>Mobile</td>
-                                 <td>355</td>
-                                 <td><span class="d-flex align-items-center gap-2"><i
-                                             class="fas fa-circle text-success f-10 m-r-5"></i>Approved</span>
-                                 </td>
-                                 <td class="text-end">$180,139</td>
-                             </tr>
-                         </tbody>
-                     </table>
-                 </div>
-             </div>
-         </div>
-     </div>
-     <div class="col-md-12 col-xl-4">
-         <h5 class="mb-3">Analytics Report</h5>
-         <div class="card">
-             <div class="list-group list-group-flush">
-                 <a href="#"
-                     class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">Company
-                     Finance Growth<span class="h5 mb-0">+45.14%</span></a>
-                 <a href="#"
-                     class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">Company
-                     Expenses Ratio<span class="h5 mb-0">0.58%</span></a>
-                 <a href="#"
-                     class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">Business
-                     Risk Cases<span class="h5 mb-0">Low</span></a>
-             </div>
-             <div class="card-body px-2">
-                 <div id="analytics-report-chart"></div>
-             </div>
-         </div>
-     </div>
+<style>
+    /* ======= Premium UI Styling ======= */
+    .dashboard-card {
+        border: none;
+        border-radius: 20px;
+        padding: 25px;
+        background: #ffffff;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        transition: 0.3s ease;
+    }
 
-     <div class="col-md-12 col-xl-8">
-         <h5 class="mb-3">Sales Report</h5>
-         <div class="card">
-             <div class="card-body">
-                 <h6 class="mb-2 f-w-400 text-muted">This Week Statistics</h6>
-                 <h3 class="mb-0">$7,650</h3>
-                 <div id="sales-report-chart"></div>
-             </div>
-         </div>
-     </div>
-     <div class="col-md-12 col-xl-4">
-         <h5 class="mb-3">Transaction History</h5>
-         <div class="card">
-             <div class="list-group list-group-flush">
-                 <a href="#" class="list-group-item list-group-item-action">
-                     <div class="d-flex">
-                         <div class="flex-shrink-0">
-                             <div class="avtar avtar-s rounded-circle text-success bg-light-success">
-                                 <i class="ti ti-gift f-18"></i>
-                             </div>
-                         </div>
-                         <div class="flex-grow-1 ms-3">
-                             <h6 class="mb-1">Order #002434</h6>
-                             <p class="mb-0 text-muted">Today, 2:00 AM</P>
-                         </div>
-                         <div class="flex-shrink-0 text-end">
-                             <h6 class="mb-1">+ $1,430</h6>
-                             <p class="mb-0 text-muted">78%</P>
-                         </div>
-                     </div>
-                 </a>
-                 <a href="#" class="list-group-item list-group-item-action">
-                     <div class="d-flex">
-                         <div class="flex-shrink-0">
-                             <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-                                 <i class="ti ti-message-circle f-18"></i>
-                             </div>
-                         </div>
-                         <div class="flex-grow-1 ms-3">
-                             <h6 class="mb-1">Order #984947</h6>
-                             <p class="mb-0 text-muted">5 August, 1:45 PM</P>
-                         </div>
-                         <div class="flex-shrink-0 text-end">
-                             <h6 class="mb-1">- $302</h6>
-                             <p class="mb-0 text-muted">8%</P>
-                         </div>
-                     </div>
-                 </a>
-                 <a href="#" class="list-group-item list-group-item-action">
-                     <div class="d-flex">
-                         <div class="flex-shrink-0">
-                             <div class="avtar avtar-s rounded-circle text-danger bg-light-danger">
-                                 <i class="ti ti-settings f-18"></i>
-                             </div>
-                         </div>
-                         <div class="flex-grow-1 ms-3">
-                             <h6 class="mb-1">Order #988784</h6>
-                             <p class="mb-0 text-muted">7 hours ago</P>
-                         </div>
-                         <div class="flex-shrink-0 text-end">
-                             <h6 class="mb-1">- $682</h6>
-                             <p class="mb-0 text-muted">16%</P>
-                         </div>
-                     </div>
-                 </a>
-             </div>
-         </div>
-     </div>
- </div>
+    .dashboard-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    }
+
+    .soft-badge {
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .glass-box {
+        background: rgba(255,255,255,0.65);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+    }
+
+    .section-title {
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .table-modern tbody tr:hover {
+        background: rgba(125, 180, 255, 0.06);
+    }
+
+</style>
+
+
+{{-- ===== HEADER ===== --}}
+<div class="glass-box shadow-sm p-4 mb-4">
+    <h2 class="fw-bold text-primary mb-1">
+        Dashboard Admin
+    </h2>
+    <p class="text-muted mb-0">
+        Selamat datang kembali, <strong>{{ Auth::user()->name }}</strong>.
+        Kelola seluruh aktivitas PPDB dari satu tempat.
+    </p>
+</div>
+
+
+{{-- ===== STATISTIK CARDS ===== --}}
+<div class="row g-4">
+
+    <div class="col-md-6 col-xl-3">
+        <div class="dashboard-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="text-muted mb-0">Total Pendaftar</h6>
+                <i class="ti ti-users fs-3 text-primary"></i>
+            </div>
+            <h2 class="fw-bold mb-1">1,240</h2>
+            <span class="soft-badge bg-light-success text-success">
+                <i class="ti ti-trending-up"></i> 12% Meningkat
+            </span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="dashboard-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="text-muted mb-0">Terverifikasi</h6>
+                <i class="ti ti-check fs-3 text-success"></i>
+            </div>
+            <h2 class="fw-bold mb-1">830</h2>
+            <span class="soft-badge bg-light-info text-info">
+                <i class="ti ti-clipboard"></i> Dokumen Sah
+            </span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="dashboard-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="text-muted mb-0">Diterima</h6>
+                <i class="ti ti-badge-check fs-3 text-warning"></i>
+            </div>
+            <h2 class="fw-bold mb-1">410</h2>
+            <span class="soft-badge bg-light-warning text-warning">
+                <i class="ti ti-star"></i> Lolos Seleksi
+            </span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="dashboard-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="text-muted mb-0">Belum Dicek</h6>
+                <i class="ti ti-alert-circle fs-3 text-danger"></i>
+            </div>
+            <h2 class="fw-bold mb-1">245</h2>
+            <span class="soft-badge bg-light-danger text-danger">
+                <i class="ti ti-alert-triangle"></i> Perlu Tindakan
+            </span>
+        </div>
+    </div>
+
+</div>
+
+
+
+{{-- ===== CHART SECTION ===== --}}
+<div class="row mt-4 g-4">
+
+    <div class="col-xl-8">
+        <div class="dashboard-card">
+            <h5 class="section-title">Statistik Pengunjung</h5>
+            <div id="visitor-chart" style="height: 260px;"></div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="dashboard-card">
+            <h5 class="section-title">Income Overview</h5>
+            <h2 class="fw-bold mb-3">$7,650</h2>
+            <div id="income-chart" style="height: 200px;"></div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{{-- ===== TABLE ORDERS ===== --}}
+<div class="row mt-4 g-4">
+
+    <div class="col-xl-8">
+        <div class="dashboard-card">
+            <h5 class="section-title">Recent Orders</h5>
+
+            <div class="table-responsive">
+                <table class="table table-modern align-middle">
+                    <thead class="table-light rounded-3">
+                        <tr>
+                            <th>Tracking No</th>
+                            <th>Produk</th>
+                            <th>Jumlah</th>
+                            <th>Status</th>
+                            <th class="text-end">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>84564564</td>
+                            <td>Camera Lens</td>
+                            <td>40</td>
+                            <td><span class="badge bg-danger">Rejected</span></td>
+                            <td class="text-end">$40,570</td>
+                        </tr>
+
+                        <tr>
+                            <td>43847393</td>
+                            <td>Laptop</td>
+                            <td>300</td>
+                            <td><span class="badge bg-warning text-dark">Pending</span></td>
+                            <td class="text-end">$180,139</td>
+                        </tr>
+
+                        <tr>
+                            <td>93847322</td>
+                            <td>Mobile</td>
+                            <td>355</td>
+                            <td><span class="badge bg-success">Approved</span></td>
+                            <td class="text-end">$180,139</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    {{-- ===== Analytics Small Chart ===== --}}
+    <div class="col-xl-4">
+        <div class="dashboard-card">
+            <h5 class="section-title">Analytics Report</h5>
+
+            <div class="list-group border-0 mb-3">
+                <a class="list-group-item border-0 d-flex justify-content-between">
+                    Finance Growth <strong>+45.14%</strong>
+                </a>
+                <a class="list-group-item border-0 d-flex justify-content-between">
+                    Expense Ratio <strong>0.58%</strong>
+                </a>
+                <a class="list-group-item border-0 d-flex justify-content-between">
+                    Risk Level <strong class="text-success">Low</strong>
+                </a>
+            </div>
+
+            <div id="analytics-chart" style="height: 200px;"></div>
+        </div>
+    </div>
+
+</div>
+
+@endsection

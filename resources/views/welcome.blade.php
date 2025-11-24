@@ -18,7 +18,7 @@
                     <h1 class="mt-sm-3 text-white mb-4 f-w-600 wow fadeInUp" data-wow-delay="0.2s" style="font-size: 3.5rem;">
                         Selamat Datang di PPDB Online
                         <br>
-                        <span class="text-primary">Sekolah Harapan Bangsa</span>
+                        <span class="text-primary">SMK Antartika 1 Sidoarjo</span>
                     </h1>
                     <h5 class="mb-4 text-white opacity-75 wow fadeInUp" data-wow-delay="0.4s" style="font-size: 1.25rem;">
                         Wujudkan Masa Depan Gemilang Melalui Pendidikan Berkualitas.
@@ -160,8 +160,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center">
                     <h2 class="text-white mb-4" style="font-size: 2.8rem; font-weight: 600;">Siap Bergabung dengan <span
-                            class="text-primary">Sekolah Harapan
-                            Bangsa?</span></h2>
+                            class="text-primary">Sekolah SMK Antartika 1 Sidoarjo?</span></h2>
                     <p class="text-white opacity-75 mb-4 lead">Pendaftaran akan segera ditutup. Jangan lewatkan
                         kesempatan untuk
                         menjadi siswa berprestasi di sekolah kami. Klik tombol di bawah untuk memulai proses pendaftaran.

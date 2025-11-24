@@ -45,41 +45,44 @@
 
                     <!-- Pendaftaran -->
                     <div class="col-md-4">
-                        <div class="card h-100 border-0 shadow-sm feature-card hover-card rounded-4">
+                        <div class="card h-100 border-0 shadow-sm feature-card hover-card rounded-4 position-relative">
                             <div class="card-body text-center py-4">
                                 <i class="ti ti-id-badge fs-1 text-info"></i>
-                                <h5 class="mt-3 fw-semibold">Pendaftaran</h5>
+                                <h5 class="mt-3 fw-semibold">Biodata</h5>
                                 <p class="text-muted mb-0">Lengkapi dan cek data pendaftaran kamu di sini.</p>
                             </div>
+                            <a href="{{ url('/user/biodata') }}" class="stretched-link" title="Pendaftaran"></a>
                         </div>
                     </div>
 
                     <!-- Progress -->
                     <div class="col-md-4">
-                        <div class="card h-100 border-0 shadow-sm feature-card hover-card rounded-4">
+                        <div class="card h-100 border-0 shadow-sm feature-card hover-card rounded-4 position-relative">
                             <div class="card-body text-center py-4">
                                 <i class="ti ti-chart-bar fs-1 text-success"></i>
-                                <h5 class="mt-3 fw-semibold">Progress</h5>
+                                <h5 class="mt-3 fw-semibold">Uploud Dokumen</h5>
                                 <p class="text-muted mb-0">Pantau status dan perkembangan seleksi PPDB.</p>
                             </div>
+                            <a href="{{ url('/user/dokumen') }}" class="stretched-link" title="Progress"></a>
                         </div>
                     </div>
 
                     <!-- Pengumuman -->
                     <div class="col-md-4">
-                        <div class="card h-100 border-0 shadow-sm feature-card hover-card rounded-4">
+                        <div class="card h-100 border-0 shadow-sm feature-card hover-card rounded-4 position-relative">
                             <div class="card-body text-center py-4">
                                 <i class="ti ti-megaphone fs-1 text-warning"></i>
-                                <h5 class="mt-3 fw-semibold">Pengumuman</h5>
+                                <h5 class="mt-3 fw-semibold">Daftar Ulang</h5>
                                 <p class="text-muted mb-0">Lihat pengumuman terbaru dari panitia PPDB.</p>
                             </div>
+                            <a href="{{ url('/user/daftar-ulang') }}" class="stretched-link" title="Pengumuman"></a>
                         </div>
                     </div>
 
                 </div>
 
                 <!-- Profile Button -->
-                <a href="/myprofile" class="btn btn-primary mt-5 px-4 py-2 rounded-pill shadow-sm">
+                <a href="{{ url('/myprofile') }}" class="btn btn-primary mt-5 px-4 py-2 rounded-pill shadow-sm">
                     Lihat Profil Saya
                 </a>
 

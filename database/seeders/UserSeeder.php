@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         // default role user
         DB::table('users')->insert([
             'name' => 'User Satu',
-            'email' => 'usersatu@gmail.com',
+            'email' => '@gmausersatuil.com',
             'password' => Hash::make('password123'),
         ]);
         DB::table('users')->insert([

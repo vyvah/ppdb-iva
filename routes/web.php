@@ -67,6 +67,24 @@ Route::middleware(['auth'])->group(function () {
 
     Route::view('/myprofile', 'myprofile')->name('myprofile');
 
+        Route::get('/user/biodata', [\App\Http\Controllers\BiodataController::class, 'index'])
+        ->name('user.biodata');
+
+    Route::post('/user/biodata', [\App\Http\Controllers\BiodataController::class, 'store'])
+        ->name('user.biodata.store');
+
+          Route::get('/user/dokumen', [\App\Http\Controllers\DokumenController::class, 'index'])
+        ->name('user.dokumen');
+
+    Route::post('/user/dokumen', [\App\Http\Controllers\DokumenController::class, 'store'])
+        ->name('user.dokumen.store');
+
+          Route::get('/user/daftar-ulang', [\App\Http\Controllers\DokumenController::class, 'index'])
+        ->name('user.daftar_ulang');
+
+    Route::post('/user/daftar-ulang', [\App\Http\Controllers\DokumenController::class, 'store'])
+        ->name('user.daftar_ulang.store');
+
     /*
     |--------------------------------------------------------------------------
     | Admin Routes

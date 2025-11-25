@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Biodata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +12,12 @@ class BiodataController extends Controller
      */
     public function index()
     {
-        $is_verified_user = Auth::user()->is_verified; #class helper
+        $is_verified_user = Auth::user()->is_verified ?? false;
 
         return view('user.biodata', compact('is_verified_user'));
     }
 
+    /**
     /**
      * Show the form for creating a new resource.
      */
@@ -26,43 +26,27 @@ class BiodataController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        $validated = $request->validate([
+            'nama' => 'required',
+            'nisn' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'telepon' => 'required',
+            'alamat' => 'required',
+            'foto' => 'nullable|image|max=2048',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Biodata $biodata)
-    {
-        //
-    }
+        $user = auth()->user();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Biodata $biodata)
-    {
-        //
-    }
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('foto', 'public');
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Biodata $biodata)
-    {
-        //
-    }
+        $user->update($validated);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Biodata $biodata)
-    {
-        //
+        return back()->with('success', 'Biodata berhasil diperbarui!');
     }
 }

@@ -36,7 +36,7 @@ class BiodataController extends Controller
             'jenis_kelamin' => 'required',
             'telepon' => 'required',
             'alamat' => 'required',
-            'foto' => 'nullable|image|max=2048',
+            'foto' => 'nullable|image|max:2048',
         ]);
 
         $user = auth()->user();
@@ -47,6 +47,8 @@ class BiodataController extends Controller
 
         $user->update($validated);
 
-        return back()->with('success', 'Biodata berhasil diperbarui!');
+        // Simpan data dan biarkan user tetap di halaman user.
+        // Data sudah tersimpan dan akan terlihat pada halaman admin untuk verifikasi.
+        return redirect()->back()->with('success', 'Biodata berhasil diperbarui! Admin akan segera memverifikasi.');
     }
 }

@@ -16,13 +16,15 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-
         // default role user
         DB::table('users')->insert([
             'name' => 'User Satu',
-            'email' => '@gmausersatuil.com',
+            'email' => 'usersatu@gmail.com', // email diperbaiki agar valid
+            'role' => 'user',                // tambahkan role jika kolom ini wajib
             'password' => Hash::make('password123'),
         ]);
+
+        // default admin
         DB::table('users')->insert([
             'name' => 'Admin Satu',
             'email' => 'admin@gmail.com',

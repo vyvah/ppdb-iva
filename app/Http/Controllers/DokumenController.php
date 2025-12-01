@@ -14,58 +14,70 @@ class DokumenController extends Controller
 
     public function store(Request $request)
     {
-        // VALIDASI BENAR
+        // Validasi sesuai form Upload Dokumen pada user/dokumen
         $request->validate([
-            'nik'                => 'required|numeric',
-            'nama_ayah'          => 'required|string',
-            'pekerjaan_ayah'     => 'required|string',
-            'nama_ibu'           => 'required|string',
-            'pekerjaan_ibu'      => 'required|string',
-            'alamat_ortu'        => 'required|string',
+            'nama' => 'required|string|max:255',
+            'telepon' => 'required|string|max:20',
+            'jurusan' => 'nullable|string|max:10',
 
-            // Validasi file (max:2048, bukan max=2048)
-            'kk'                => 'nullable|mimes:jpg,jpeg,png,pdf|max:2048',
-            'surat_pernyataan'  => 'nullable|mimes:jpg,jpeg,png,pdf|max:2048',
+            // fields orangtua tetap diterima jika ada
+            'nik' => 'nullable|numeric',
+            'nama_ayah' => 'nullable|string|max:255',
+            'pekerjaan_ayah' => 'nullable|string|max:255',
+            'nama_ibu' => 'nullable|string|max:255',
+            'pekerjaan_ibu' => 'nullable|string|max:255',
+            'alamat_ortu' => 'nullable|string',
+
+            // file uploads sesuai nama input di form
+            'kk' => 'nullable|mimes:jpg,jpeg,png,pdf|max:2048',
+            'akte' => 'nullable|mimes:jpg,jpeg,png,pdf|max:2048',
+            'bukti_transfer' => 'nullable|mimes:jpg,jpeg,png,pdf|max:2048',
+        ], [
+            // custom pesan sederhana Bahasa Indonesia
+            'nama.required' => 'Nama lengkap wajib diisi.',
+            'telepon.required' => 'Nomor telepon wajib diisi.',
+            'kk.mimes' => 'File KK harus berformat jpg, jpeg, png, atau pdf.',
+            'akte.mimes' => 'File Akte harus berformat jpg, jpeg, png, atau pdf.',
+            'bukti_transfer.mimes' => 'File bukti transfer harus berformat jpg, jpeg, png, atau pdf.',
         ]);
 
         $user = auth()->user();
 
-        // PROSES UPLOAD
+        // PROSES UPLOAD — simpan file ke storage/app/public/dokumen
         $dokumen = [];
-
-        // list nama input file
-        $fileList = ['kk', 'surat_pernyataan'];
+        $fileList = ['kk', 'akte', 'bukti_transfer'];
 
         foreach ($fileList as $file) {
             if ($request->hasFile($file)) {
-
-                // nama file unik
-                $filename = $file . '_' . time() . '.' . $request->file($file)->extension();
-
-                // simpan ke storage/app/public/dokumen
-                $request->file($file)->storeAs('public/dokumen', $filename);
-
-                // simpan nama file ke array
+                $fileObj = $request->file($file);
+                $filename = $file . '_' . time() . '.' . $fileObj->extension();
+                $fileObj->storeAs('public/dokumen', $filename);
                 $dokumen[$file] = $filename;
             }
         }
 
-        // SIMPAN KE DATABASE (TABLE: users)
+        // Update data user (hanya field yang sesuai dengan form)
         $user->update([
-            'nik'              => $request->nik,
-            'nama_ayah'        => $request->nama_ayah,
-            'pekerjaan_ayah'   => $request->pekerjaan_ayah,
-            'nama_ibu'         => $request->nama_ibu,
-            'pekerjaan_ibu'    => $request->pekerjaan_ibu,
-            'alamat_ortu'      => $request->alamat_ortu,
+            'name' => $request->nama,
+            'telepon' => $request->telepon,
+            'jurusan' => $request->jurusan,
 
-            // jika tidak upload → tidak menimpa data lama
-            'kk'               => $dokumen['kk'] ?? $user->kk,
-            'surat_pernyataan' => $dokumen['surat_pernyataan'] ?? $user->surat_pernyataan,
+            // jika orangtua diisi, simpan juga
+            'nik' => $request->nik ?? $user->nik,
+            'nama_ayah' => $request->nama_ayah ?? $user->nama_ayah,
+            'pekerjaan_ayah' => $request->pekerjaan_ayah ?? $user->pekerjaan_ayah,
+            'nama_ibu' => $request->nama_ibu ?? $user->nama_ibu,
+            'pekerjaan_ibu' => $request->pekerjaan_ibu ?? $user->pekerjaan_ibu,
+            'alamat_ortu' => $request->alamat_ortu ?? $user->alamat_ortu,
+
+            // file fields — hanya timpa jika ada upload baru
+            'kk' => $dokumen['kk'] ?? $user->kk,
+            'akte' => $dokumen['akte'] ?? $user->akte,
+            'bukti_transfer' => $dokumen['bukti_transfer'] ?? $user->bukti_transfer,
         ]);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Form daftar ulang berhasil disimpan.');
+        // Simpan data dan biarkan user tetap di halaman user.
+        // Data sudah tersimpan dan akan terlihat pada halaman admin untuk verifikasi.
+        return redirect()->back()->with('success', 'Dokumen berhasil diunggah! Admin akan segera memverifikasi.');
     }
 }

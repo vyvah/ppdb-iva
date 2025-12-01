@@ -2,225 +2,189 @@
 @section('title', 'Dashboard Admin')
 
 @section('content')
-
 <style>
-    /* ===== Modern Clean Dashboard UI ===== */
     :root {
         --primary: #4f46e5;
-        --primary-light: #eef2ff;
+        --bg-soft: #f9fafb;
         --text-dark: #111827;
         --text-muted: #6b7280;
-        --card-bg: #fff;
         --radius: 16px;
-        --shadow: 0 4px 18px rgba(0,0,0,0.06);
-        --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
     }
 
-    .dashboard-container {
-        padding: 15px;
-    }
+    .dashboard-container { padding: 15px; }
 
-    .card-modern {
-        background: var(--card-bg);
-        border-radius: var(--radius);
-        padding: 26px;
-        border: 1px solid #ececec;
-        box-shadow: var(--shadow);
-        transition: .25s ease;
-    }
-
-    .card-modern:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-hover);
-    }
-
+    /* HEADER */
     .header-modern {
-        padding: 35px;
+        padding: 28px;
         border-radius: var(--radius);
-        background: rgba(255,255,255,0.85);
-        backdrop-filter: blur(10px);
-        border: 1px solid #ececec;
-        margin-bottom: 30px;
-        box-shadow: var(--shadow);
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 25px;
     }
 
-    .header-modern h2 {
-        font-weight: 700;
-        color: var(--primary);
+    /* STATISTIC CARDS */
+    .stat-minimal {
+        background: #ffffff;
+        padding: 24px;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        transition: .2s ease;
     }
+    .stat-minimal:hover { background: #fafafa; transform: translateY(-2px); }
 
-    .stats-number {
-        font-size: 32px;
-        font-weight: 700;
-        color: var(--text-dark);
-        margin-top: 5px;
-    }
+    .stat-title { font-size:14px; color:#6b7280; margin-bottom:4px; }
+    .stat-value { font-size:32px; font-weight:700; color:#111827; margin-bottom:6px; }
+    .stat-sub { font-size:12px; color:#9ca3af; font-weight:500; }
 
     .badge-soft {
-        padding: 6px 12px;
-        border-radius: 20px;
+        padding: 5px 10px;
+        border-radius: 12px;
         font-size: 12px;
         font-weight: 600;
-        display: inline-block;
     }
+    .bg-success-soft { background:#dcfce7; color:#15803d; }
+    .bg-warning-soft { background:#fef9c3; color:#a16207; }
+    .bg-danger-soft  { background:#fee2e2; color:#b91c1c; }
+    .bg-info-soft    { background:#e0f2fe; color:#0369a1; }
 
-    .badge-soft-success { background: #dcfce7; color: #15803d; }
-    .badge-soft-info    { background: #e0f2fe; color: #0369a1; }
-    .badge-soft-warning { background: #fef9c3; color: #a16207; }
-    .badge-soft-danger  { background: #fee2e2; color: #b91c1c; }
-
-    .table-modern tbody tr:hover {
-        background: var(--primary-light);
-    }
-
-    .section-title {
-        font-weight: 700;
-        color: var(--text-dark);
-        margin-bottom: 12px;
-    }
 </style>
-
 
 <div class="dashboard-container">
 
-    {{-- HEADER --}}
+    <!-- HEADER -->
     <div class="header-modern">
-        <h2>Dashboard Admin</h2>
+        <h2 class="fw-bold" style="color:var(--primary)">Dashboard Admin</h2>
         <p class="text-muted mb-0">Selamat datang kembali, <strong>{{ Auth::user()->name }}</strong>.</p>
     </div>
 
-    {{-- STATISTIC CARDS --}}
-    <div class="row g-4">
+
+    <!-- STATISTIC -->
+    <div class="row g-3 mb-3">
 
         <div class="col-md-6 col-xl-3">
-            <div class="card-modern">
-                <p class="text-muted mb-1">Total Pendaftar</p>
-                <div class="stats-number">1,240</div>
-                <span class="badge-soft badge-soft-success mt-2">+12% Meningkat</span>
+            <div class="stat-minimal">
+                <p class="stat-title">Total Pendaftar</p>
+                <p class="stat-value">{{ number_format($total_pendaftar ?? 0) }}</p>
+                <span class="stat-sub">Semua gelombang</span>
             </div>
         </div>
 
         <div class="col-md-6 col-xl-3">
-            <div class="card-modern">
-                <p class="text-muted mb-1">Terverifikasi</p>
-                <div class="stats-number">830</div>
-                <span class="badge-soft badge-soft-info mt-2">Dokumen Sah</span>
+            <div class="stat-minimal">
+                <p class="stat-title">Terverifikasi</p>
+                <p class="stat-value">{{ number_format($total_terverifikasi ?? 0) }}</p>
+                <span class="stat-sub text-success">Dokumen sah</span>
             </div>
         </div>
 
         <div class="col-md-6 col-xl-3">
-            <div class="card-modern">
-                <p class="text-muted mb-1">Diterima</p>
-                <div class="stats-number">410</div>
-                <span class="badge-soft badge-soft-warning mt-2">Lolos Seleksi</span>
+            <div class="stat-minimal">
+                <p class="stat-title">Diterima</p>
+                <p class="stat-value">{{ number_format($total_diterima ?? 0) }}</p>
+                <span class="stat-sub text-warning">Lolos Seleksi</span>
             </div>
         </div>
 
         <div class="col-md-6 col-xl-3">
-            <div class="card-modern">
-                <p class="text-muted mb-1">Belum Dicek</p>
-                <div class="stats-number">245</div>
-                <span class="badge-soft badge-soft-danger mt-2">Perlu Dicek</span>
+            <div class="stat-minimal">
+                <p class="stat-title">Belum Dicek</p>
+                <p class="stat-value">{{ number_format($total_belum_dicek ?? 0) }}</p>
+                <span class="stat-sub text-danger">Menunggu verifikasi</span>
             </div>
         </div>
     </div>
 
 
-    {{-- CHART SECTION --}}
-    <div class="row g-4 mt-1">
+    <div class="row g-4 mt-2">
 
+        <!-- TABLE SECTION -->
         <div class="col-xl-8">
-            <div class="card-modern">
-                <h5 class="section-title">Statistik Pengunjung</h5>
-                <div id="visitor-chart" style="height: 260px;"></div>
-            </div>
-        </div>
+            <div class="stat-minimal">
 
-        <div class="col-xl-4">
-            <div class="card-modern">
-                <h5 class="section-title">Income Overview</h5>
-                <div class="stats-number mb-3">$7,650</div>
-                <div id="income-chart" style="height: 200px;"></div>
-            </div>
-        </div>
+                <h5 class="fw-bold mb-3">Pendaftar Terbaru</h5>
 
-    </div>
-
-
-    {{-- TABLE SECTION --}}
-    <div class="row g-4 mt-1">
-
-        <div class="col-xl-8">
-            <div class="card-modern">
-                <h5 class="section-title">Recent Orders</h5>
-
-                <div class="table-responsive mt-3">
-                    <table class="table table-modern align-middle">
-                        <thead class="table-light">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead class="bg-light">
                             <tr>
-                                <th>Tracking No</th>
-                                <th>Produk</th>
-                                <th>Jumlah</th>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Asal Sekolah</th>
                                 <th>Status</th>
-                                <th class="text-end">Total</th>
+                                <th class="text-end">Hasil</th>
                             </tr>
                         </thead>
-
                         <tbody>
-                            <tr>
-                                <td>84564564</td>
-                                <td>Camera Lens</td>
-                                <td>40</td>
-                                <td><span class="badge-soft badge-soft-danger">Rejected</span></td>
-                                <td class="text-end">$40,570</td>
-                            </tr>
+                            @forelse($pendaftar_recent ?? [] as $p)
+                                @php
+                                    $status = strtolower($p->status_verifikasi ?? '');
+                                    $badgeClass = $status == 'sah' ? 'bg-success-soft'
+                                                : ($status == 'diterima' ? 'bg-warning-soft'
+                                                : ($status == 'belum dicek' ? 'bg-danger-soft'
+                                                : 'bg-info-soft'));
+                                @endphp
 
-                            <tr>
-                                <td>43847393</td>
-                                <td>Laptop</td>
-                                <td>300</td>
-                                <td><span class="badge-soft badge-soft-warning">Pending</span></td>
-                                <td class="text-end">$180,139</td>
-                            </tr>
+                                <tr>
+                                    <td>{{ $p->no_pendaftaran }}</td>
+                                    <td>{{ $p->nama }}</td>
+                                    <td>{{ $p->asal_sekolah }}</td>
+                                    <td><span class="badge-soft {{ $badgeClass }}">{{ ucfirst($p->status_verifikasi) }}</span></td>
+                                    <td class="text-end">{{ $p->hasil_seleksi ?? '-' }}</td>
+                                </tr>
 
-                            <tr>
-                                <td>93847322</td>
-                                <td>Mobile</td>
-                                <td>355</td>
-                                <td><span class="badge-soft badge-soft-success">Approved</span></td>
-                                <td class="text-end">$180,139</td>
-                            </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">Belum ada pendaftar</td>
+                                </tr>
+                            @endforelse
                         </tbody>
-
                     </table>
                 </div>
+
             </div>
         </div>
 
 
-        {{-- Analytics --}}
+        <!-- SIDEBAR SUMMARY -->
         <div class="col-xl-4">
-            <div class="card-modern">
-                <h5 class="section-title">Analytics Report</h5>
+            <div class="stat-minimal">
 
-                <div class="list-group border-0 mb-3 mt-2">
-                    <div class="list-group-item border-0 d-flex justify-content-between">
-                        Finance Growth <strong>+45.14%</strong>
-                    </div>
-                    <div class="list-group-item border-0 d-flex justify-content-between">
-                        Expense Ratio <strong>0.58%</strong>
-                    </div>
-                    <div class="list-group-item border-0 d-flex justify-content-between">
-                        Risk Level <strong class="text-success">Low</strong>
-                    </div>
-                </div>
+                <h5 class="fw-bold mb-3">Ringkasan PPDB</h5>
 
-                <div id="analytics-chart" style="height: 200px;"></div>
+                <ul class="list-group border-0">
+
+                    <li class="list-group-item border-0 d-flex justify-content-between">
+                        Total Pendaftar
+                        <strong>{{ number_format($total_pendaftar ?? 0) }}</strong>
+                    </li>
+
+                    <li class="list-group-item border-0 d-flex justify-content-between">
+                        Terverifikasi
+                        <strong class="text-success">{{ number_format($total_terverifikasi ?? 0) }}</strong>
+                    </li>
+
+                    <li class="list-group-item border-0 d-flex justify-content-between">
+                        Diterima
+                        <strong class="text-warning">{{ number_format($total_diterima ?? 0) }}</strong>
+                    </li>
+
+                    <li class="list-group-item border-0 d-flex justify-content-between">
+                        Belum Dicek
+                        <strong class="text-danger">{{ number_format($total_belum_dicek ?? 0) }}</strong>
+                    </li>
+
+                </ul>
+
+                <hr>
+
+                <p class="text-muted small mt-2">
+                    * Data diperbarui otomatis berdasarkan sistem PPDB.
+                </p>
+
             </div>
         </div>
 
     </div>
-
 </div>
 
 @endsection

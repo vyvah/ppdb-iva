@@ -18,6 +18,9 @@ class CheckRole
         if (in_array($request->user()->role, $role)) {
             return $next($request);
         }
-        abort(403);
+
+        // Jika bukan admin yang mencoba akses admin page, redirect ke dashboard
+        return redirect()->route('dashboard')
+            ->with('error', 'Anda tidak memiliki akses ke halaman admin.');
     }
 }

@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\LaporanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,23 +70,29 @@ Route::middleware(['auth'])->group(function () {
 
     Route::view('/myprofile', 'myprofile')->name('myprofile');
 
-        Route::get('/user/biodata', [\App\Http\Controllers\BiodataController::class, 'index'])
+    Route::get('/user/biodata', [\App\Http\Controllers\BiodataController::class, 'index'])
         ->name('user.biodata');
 
     Route::post('/user/biodata', [\App\Http\Controllers\BiodataController::class, 'store'])
         ->name('user.biodata.store');
 
-          Route::get('/user/dokumen', [\App\Http\Controllers\DokumenController::class, 'index'])
+    Route::get('/user/dokumen', [\App\Http\Controllers\DokumenController::class, 'index'])
         ->name('user.dokumen');
 
     Route::post('/user/dokumen', [\App\Http\Controllers\DokumenController::class, 'store'])
         ->name('user.dokumen.store');
 
-          Route::get('/user/daftar-ulang', [\App\Http\Controllers\DokumenController::class, 'index'])
+    Route::get('/user/daftar-ulang', [\App\Http\Controllers\DokumenController::class, 'index'])
         ->name('user.daftar_ulang');
 
     Route::post('/user/daftar-ulang', [\App\Http\Controllers\DokumenController::class, 'store'])
         ->name('user.daftar_ulang.store');
+
+    Route::get('/user/orangtua', [\App\Http\Controllers\OrangtuaController::class, 'index'])
+        ->name('user.orangtua');
+
+    Route::post('/user/orangtua', [\App\Http\Controllers\OrangtuaController::class, 'store'])
+        ->name('user.orangtua.store');
 
     /*
     |--------------------------------------------------------------------------
@@ -91,10 +100,37 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::middleware(['cekRole:admin'])->prefix('admin')->name('admin.')->group(function () {
-        Route::view('/verifikasi', 'admin.verifikasi')->name('verifikasi');
+        Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi');
         Route::view('/seleksi', 'admin.seleksi')->name('seleksi');
-        Route::view('/pengumuman', 'admin.pengumuman')->name('pengumuman');
-        Route::view('/laporan', 'admin.laporan')->name('laporan');
+        Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
+        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
+
+        // Verifikasi Dokumen Routes
+        Route::get('/dokumen', [VerifikasiController::class, 'index'])->name('dokumen.index');
+        Route::get('/dokumen/{dokumen}', [VerifikasiController::class, 'show'])->name('dokumen.show');
+        Route::post('/dokumen/{dokumen}/update-status', [VerifikasiController::class, 'updateStatus'])->name('dokumen.update-status');
+        Route::get('/dokumen/{dokumen}/download', [VerifikasiController::class, 'download'])->name('verifikasi.download');
+
+        // Pengumuman Routes
+        Route::get('/pengumuman-list', [PengumumanController::class, 'index'])->name('pengumuman.index');
+        Route::post('/pengumuman', [PengumumanController::class, 'store'])->name('pengumuman.store');
+        Route::post('/pengumuman/{pengumuman}/publikasikan', [PengumumanController::class, 'publikasikan'])->name('pengumuman.publikasikan');
+        Route::delete('/pengumuman/{pengumuman}', [PengumumanController::class, 'destroy'])->name('pengumuman.destroy');
+        Route::post('/pengumuman/import', [PengumumanController::class, 'importCsv'])->name('pengumuman.import');
+
+        // Laporan Routes
+        Route::get('/laporan-index', [LaporanController::class, 'index'])->name('laporan.index');
+        Route::get('/laporan/export-dokumen', [LaporanController::class, 'exportExcel'])->name('laporan.export-dokumen');
+        Route::get('/laporan/export-hasil', [LaporanController::class, 'exportHasil'])->name('laporan.export-hasil');
+        Route::get('/laporan/dokumen/{status}', [LaporanController::class, 'dokumenByStatus'])->name('laporan.dokumen-status');
+        Route::get('/laporan/hasil/{status}', [LaporanController::class, 'hasilByStatus'])->name('laporan.hasil-status');
+
+        // Helper route untuk list biodata
+        Route::get('/biodata-list', function () {
+            return response()->json(
+                \App\Models\Biodata::select('id', 'nomor_pendaftaran', 'nama_lengkap')->get()
+            );
+        })->name('biodata.list');
     });
 
     /*

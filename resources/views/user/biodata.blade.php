@@ -287,7 +287,7 @@
                     <div class="form-group">
                         <label class="form-label">NISN</label>
                         <input type="text" name="nisn" class="form-control @error('nisn') is-invalid @enderror"
-                            value="{{ old('nisn', $user->nisn ?? '') }}" placeholder="10 digit NISN">
+                            value="{{ old('nisn', $user->nisn ?? '') }}" placeholder="10 digit NISN" inputmode="numeric" pattern="[0-9]*" maxlength="10" onInput="this.value = this.value.replace(/[^0-9]/g, '')">
                         @error('nisn')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

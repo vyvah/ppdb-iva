@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pengumuman;
 use App\Models\Biodata;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengumumanController extends Controller
 {
@@ -26,6 +27,23 @@ class PengumumanController extends Controller
         ];
 
         return view('admin.pengumuman', compact('pengumans', 'statistik'));
+    }
+
+    /**
+     * Tampilkan halaman pengumuman untuk area user
+     */
+    public function userIndex()
+    {
+        $pengumans = Pengumuman::where('di_publikasikan', true)
+            ->orderBy('tanggal_pengumuman', 'desc')
+            ->paginate(10);
+
+        $userPengumuman = null;
+        if (Auth::check()) {
+            $userPengumuman = Pengumuman::where('user_id', Auth::id())->latest()->first();
+        }
+
+        return view('user.pengumuman', compact('pengumans', 'userPengumuman'));
     }
 
     /**

@@ -28,6 +28,27 @@ class User extends Authenticatable
         'is_verified',
         'otp_code',
         'otp_expires_at',
+        // Document columns
+        'kk',
+        'akte',
+        'bukti_transfer',
+        // Parent/Guardian data
+        'nama_ayah',
+        'nik_ayah',
+        'pekerjaan_ayah',
+        'telepon_ayah',
+        'nama_ibu',
+        'nik_ibu',
+        'pekerjaan_ibu',
+        'telepon_ibu',
+        'alamat_ortu',
+        'rt_ortu',
+        'rw_ortu',
+        'kelurahan_ortu',
+        'kecamatan_ortu',
+        'kabupaten_ortu',
+        'provinsi_ortu',
+        'kode_pos_ortu',
     ];
 
     /**
@@ -51,5 +72,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Relasi ke Biodata
+     */
+    public function biodata()
+    {
+        return $this->hasOne(Biodata::class);
     }
 }

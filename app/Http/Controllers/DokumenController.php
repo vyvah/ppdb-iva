@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Dokumen;
+use Illuminate\Support\Facades\Storage;
 
 class DokumenController extends Controller
 {
@@ -75,6 +77,25 @@ class DokumenController extends Controller
             'akte' => $dokumen['akte'] ?? $user->akte,
             'bukti_transfer' => $dokumen['bukti_transfer'] ?? $user->bukti_transfer,
         ]);
+
+        // Buat atau perbarui record Dokumen untuk setiap file yang diupload
+        foreach (['kk' => 'Kartu Keluarga', 'akte' => 'Akte Kelahiran', 'bukti_transfer' => 'Bukti Transfer'] as $key => $label) {
+            if (isset($dokumen[$key])) {
+                $filePath = 'public/dokumen/' . $dokumen[$key];
+
+                Dokumen::updateOrCreate(
+                    ['user_id' => $user->id, 'tipe_dokumen' => $key],
+                    [
+                        'user_id' => $user->id,
+                        'biodata_id' => null,
+                        'nama_dokumen' => $label,
+                        'tipe_dokumen' => $key,
+                        'file_path' => $filePath,
+                        'status_verifikasi' => 'menunggu',
+                    ]
+                );
+            }
+        }
 
         // Simpan data dan biarkan user tetap di halaman user.
         // Data sudah tersimpan dan akan terlihat pada halaman admin untuk verifikasi.

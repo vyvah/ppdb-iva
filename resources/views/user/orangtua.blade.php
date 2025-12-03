@@ -174,7 +174,7 @@
 
                     <div class="form-group">
                         <label class="form-label">NIK Ayah</label>
-                        <input type="text" name="nik_ayah" class="form-control @error('nik_ayah') is-invalid @enderror"
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" name="nik_ayah" class="form-control @error('nik_ayah') is-invalid @enderror"
                             value="{{ old('nik_ayah', $user->nik_ayah ?? '') }}" placeholder="16 digit NIK">
                         @error('nik_ayah')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -195,7 +195,7 @@
 
                     <div class="form-group">
                         <label class="form-label">Telepon Ayah</label>
-                        <input type="text" name="telepon_ayah"
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" name="telepon_ayah"
                             class="form-control @error('telepon_ayah') is-invalid @enderror"
                             value="{{ old('telepon_ayah', $user->telepon_ayah ?? '') }}" placeholder="08xxxxxxxxxx">
                         @error('telepon_ayah')
@@ -221,7 +221,7 @@
 
                     <div class="form-group">
                         <label class="form-label">NIK Ibu</label>
-                        <input type="text" name="nik_ibu" class="form-control @error('nik_ibu') is-invalid @enderror"
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" name="nik_ibu" class="form-control @error('nik_ibu') is-invalid @enderror"
                             value="{{ old('nik_ibu', $user->nik_ibu ?? '') }}" placeholder="16 digit NIK">
                         @error('nik_ibu')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -242,7 +242,7 @@
 
                     <div class="form-group">
                         <label class="form-label">Telepon Ibu</label>
-                        <input type="text" name="telepon_ibu"
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" name="telepon_ibu"
                             class="form-control @error('telepon_ibu') is-invalid @enderror"
                             value="{{ old('telepon_ibu', $user->telepon_ibu ?? '') }}" placeholder="08xxxxxxxxxx">
                         @error('telepon_ibu')
@@ -269,13 +269,13 @@
                 <div class="row-group">
                     <div class="form-group">
                         <label class="form-label">RT</label>
-                        <input type="text" name="rt" class="form-control" value="{{ old('rt', $user->rt_ortu ?? '') }}"
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" name="rt" class="form-control" value="{{ old('rt', $user->rt_ortu ?? '') }}"
                             placeholder="01">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">RW</label>
-                        <input type="text" name="rw" class="form-control" value="{{ old('rw', $user->rw_ortu ?? '') }}"
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" name="rw" class="form-control" value="{{ old('rw', $user->rw_ortu ?? '') }}"
                             placeholder="01">
                     </div>
 
@@ -308,7 +308,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Kode Pos</label>
-                    <input type="text" name="kode_pos" class="form-control"
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" name="kode_pos" class="form-control"
                         value="{{ old('kode_pos', $user->kode_pos_ortu ?? '') }}" placeholder="60000" maxlength="5">
                 </div>
 
@@ -328,5 +328,27 @@
         </div>
 
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function enforceDigits(el, max) {
+                if (!el) return;
+                el.addEventListener('input', function () {
+                    let v = this.value.replace(/\D+/g, '');
+                    if (max) v = v.slice(0, max);
+                    if (this.value !== v) this.value = v;
+                });
+                el.addEventListener('keypress', function (e) {
+                    const ch = String.fromCharCode(e.which || e.keyCode);
+                    if (!/\d/.test(ch)) e.preventDefault();
+                });
+            }
 
+            enforceDigits(document.querySelector('input[name="nik_ayah"]'), 16);
+            enforceDigits(document.querySelector('input[name="nik_ibu"]'), 16);
+            enforceDigits(document.querySelector('input[name="telepon_ayah"]'), 20);
+            enforceDigits(document.querySelector('input[name="telepon_ibu"]'), 20);
+            enforceDigits(document.querySelector('input[name="rt"]'), 3);
+            enforceDigits(document.querySelector('input[name="rw"]'), 3);
+        });
+    </script>
 @endsection

@@ -11,6 +11,7 @@
     <meta name="description" content="PPDB Online SMK Antartika 1 Sidoarjo - Sistem Penerimaan Peserta Didik Baru">
     <meta name="keywords" content="PPDB, Pendaftaran Siswa, SMK Antartika, Sidoarjo, Pendidikan">
     <meta name="author" content="SMK Antartika 1 Sidoarjo">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- [Favicon] icon -->
 

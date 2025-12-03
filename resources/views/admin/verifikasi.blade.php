@@ -111,6 +111,86 @@
         </div>
     </div>
 
+    <!-- Section: User uploads stored on users table -->
+    <div class="pc-content mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header pb-3">
+                        <h5>Pengunggahan Dokumen (Dari Form User)</h5>
+                        <span class="text-muted d-block mt-2">
+                            Total pengguna dengan unggahan: <strong class="text-primary">{{ $uploadedUsers->total() ?? 0 }}</strong>
+                        </span>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>File KK</th>
+                                        <th>File Akte</th>
+                                        <th>Bukti Transfer</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($uploadedUsers as $user)
+                                        <tr>
+                                            <td>{{ $loop->iteration + ($uploadedUsers->currentPage() - 1) * $uploadedUsers->perPage() }}</td>
+                                            <td><strong>{{ $user->name }}</strong></td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->kk ? 'Ada' : '-' }}</td>
+                                            <td>{{ $user->akte ? 'Ada' : '-' }}</td>
+                                            <td>{{ $user->bukti_transfer ? 'Ada' : '-' }}</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                                        data-bs-target="#userDetailModal" data-user-id="{{ $user->id }}">
+                                                        <i class="ti ti-eye"></i> Detail
+                                                    </button>
+                                                    @if($user->kk)
+                                                        <a href="{{ route('verifikasi.user.download', ['user' => $user->id, 'file' => 'kk']) }}" class="btn btn-sm btn-secondary">KK</a>
+                                                        <button type="button" class="btn btn-sm btn-success" onclick="updateUserFileStatus({{ $user->id }}, 'kk', 'disetujui')">Setujui</button>
+                                                        <button type="button" class="btn btn-sm btn-danger" onclick="updateUserFileStatus({{ $user->id }}, 'kk', 'ditolak')">Tolak</button>
+                                                    @endif
+                                                    @if($user->akte)
+                                                        <a href="{{ route('verifikasi.user.download', ['user' => $user->id, 'file' => 'akte']) }}" class="btn btn-sm btn-secondary">Akte</a>
+                                                        <button type="button" class="btn btn-sm btn-success" onclick="updateUserFileStatus({{ $user->id }}, 'akte', 'disetujui')">Setujui</button>
+                                                        <button type="button" class="btn btn-sm btn-danger" onclick="updateUserFileStatus({{ $user->id }}, 'akte', 'ditolak')">Tolak</button>
+                                                    @endif
+                                                    @if($user->bukti_transfer)
+                                                        <a href="{{ route('verifikasi.user.download', ['user' => $user->id, 'file' => 'bukti_transfer']) }}" class="btn btn-sm btn-secondary">Bukti</a>
+                                                        <button type="button" class="btn btn-sm btn-success" onclick="updateUserFileStatus({{ $user->id }}, 'bukti_transfer', 'disetujui')">Setujui</button>
+                                                        <button type="button" class="btn btn-sm btn-danger" onclick="updateUserFileStatus({{ $user->id }}, 'bukti_transfer', 'ditolak')">Tolak</button>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center text-muted py-4">
+                                                <i class="ti ti-inbox"></i>
+                                                <p class="m-0 mt-2">Tidak ada unggahan dari user.</p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-4">
+                            {{ $uploadedUsers->links('pagination::bootstrap-4') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Detail Dokumen -->
     <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -241,5 +321,96 @@
                     alert('Terjadi kesalahan saat memproses verifikasi');
                 });
         });
+    </script>
+    
+    <!-- Modal Detail User -->
+    <div class="modal fade" id="userDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Pengguna</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="userDetailContent">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle user detail modal
+        document.getElementById('userDetailModal').addEventListener('show.bs.modal', function (e) {
+            const button = e.relatedTarget;
+            const userId = button.dataset.userId;
+
+            document.getElementById('userDetailContent').innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+            fetch(`/admin/verifikasi/user/${userId}`)
+                .then(r => r.json())
+                .then(data => {
+                    const u = data.user;
+                    let html = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Nama:</strong><br>${u.name}</p>
+                                <p><strong>Email:</strong><br>${u.email}</p>
+                                <p><strong>Telepon:</strong><br>${u.telepon ?? '-'}</p>
+                                <p><strong>Jurusan:</strong><br>${u.jurusan ?? '-'}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Nama Ayah:</strong><br>${u.nama_ayah ?? '-'}</p>
+                                <p><strong>Pekerjaan Ayah:</strong><br>${u.pekerjaan_ayah ?? '-'}</p>
+                                <p><strong>Nama Ibu:</strong><br>${u.nama_ibu ?? '-'}</p>
+                                <p><strong>Pekerjaan Ibu:</strong><br>${u.pekerjaan_ibu ?? '-'}</p>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div>
+                            <p><strong>File KK:</strong> ${u.kk ? `<a href="/admin/verifikasi/user/${u.id}/download/kk" class="btn btn-sm btn-outline-secondary">Download KK</a>` : '-'}</p>
+                            <p><strong>File Akte:</strong> ${u.akte ? `<a href="/admin/verifikasi/user/${u.id}/download/akte" class="btn btn-sm btn-outline-secondary">Download Akte</a>` : '-'}</p>
+                            <p><strong>Bukti Transfer:</strong> ${u.bukti_transfer ? `<a href="/admin/verifikasi/user/${u.id}/download/bukti_transfer" class="btn btn-sm btn-outline-secondary">Download Bukti</a>` : '-'}</p>
+                        </div>
+                    `;
+
+                    document.getElementById('userDetailContent').innerHTML = html;
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('userDetailContent').innerHTML = '<p class="text-danger">Gagal memuat detail pengguna.</p>';
+                });
+        });
+    </script>
+    <script>
+        // Update status file uploaded by user (creates/updates Dokumen record)
+        function updateUserFileStatus(userId, fileType, status) {
+            const note = prompt('Masukkan catatan verifikasi (opsional):', '');
+            const payload = {
+                status_verifikasi: status,
+                catatan_verifikasi: note
+            };
+
+            fetch(`/admin/verifikasi/user/${userId}/file/${fileType}/update-status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(r => r.json())
+            .then(resp => {
+                alert(resp.message || 'Status verifikasi diperbarui');
+                location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Gagal memperbarui status verifikasi');
+            });
+        }
     </script>
 @endsection

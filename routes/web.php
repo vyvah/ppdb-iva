@@ -99,7 +99,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['cekRole:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi');
         Route::view('/seleksi', 'admin.seleksi')->name('seleksi');
-        Route::post('/pengumuman', [PengumumanController::class, 'store'])->name('pengumuman.store');
+        Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
 
         // Verifikasi Dokumen Routes
@@ -108,6 +108,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/dokumen/{dokumen}/update-status', [VerifikasiController::class, 'updateStatus'])->name('dokumen.update-status');
         Route::get('/dokumen/{dokumen}/download', [VerifikasiController::class, 'download'])->name('verifikasi.download');
 
+        // Pengumuman Routes
+        Route::get('/pengumuman-list', [PengumumanController::class, 'index'])->name('pengumuman.index');
+        Route::post('/pengumuman', [PengumumanController::class, 'store'])->name('pengumuman.store');
+        Route::post('/pengumuman/{pengumuman}/publikasikan', [PengumumanController::class, 'publikasikan'])->name('pengumuman.publikasikan');
+        Route::delete('/pengumuman/{pengumuman}', [PengumumanController::class, 'destroy'])->name('pengumuman.destroy');
+        Route::post('/pengumuman/import', [PengumumanController::class, 'importCsv'])->name('pengumuman.import');
+
         // Laporan Routes
         Route::get('/laporan-index', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/export-dokumen', [LaporanController::class, 'exportExcel'])->name('laporan.export-dokumen');
@@ -115,17 +122,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/laporan/dokumen/{status}', [LaporanController::class, 'dokumenByStatus'])->name('laporan.dokumen-status');
         Route::get('/laporan/hasil/{status}', [LaporanController::class, 'hasilByStatus'])->name('laporan.hasil-status');
 
-        // Helper route untuk list biodata dengan user data
+        // Helper route untuk list biodata
         Route::get('/biodata-list', function () {
             return response()->json(
-                \App\Models\Biodata::with('user:id,nama_ayah,nik_ayah,pekerjaan_ayah,telepon_ayah,nama_ibu,nik_ibu,pekerjaan_ibu,telepon_ibu,alamat_ortu,rt_ortu,rw_ortu,kelurahan_ortu,kecamatan_ortu,kabupaten_ortu,provinsi_ortu,kode_pos_ortu,kk,akte,bukti_transfer')
-                    ->select('id', 'user_id', 'nomor_pendaftaran', 'nama_lengkap')
-                    ->get()
+                \App\Models\Biodata::select('id', 'nomor_pendaftaran', 'nama_lengkap')->get()
             );
         })->name('biodata.list');
-
-        // Route untuk detail user
-        Route::get('/user-detail/{user}', [VerifikasiController::class, 'getUserDetail'])->name('user.detail');
     });
 
     // Additional admin helpers for verifikasi (user file detail/download)
@@ -144,6 +146,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata');
         // Dokumen
         Route::view('/dokumen', 'user.dokumen')->name('dokumen');
+
+        // Pembayaran (halaman instruksi / upload bukti pembayaran)
+        Route::view('/pembayaran', 'user.pembayaran')->name('pembayaran');
 
         // Daftar Ulang
         Route::view('/daftar-ulang', 'user.daftar_ulang')->name('daftar_ulang');

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Biodata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,18 +46,6 @@ class BiodataController extends Controller
         }
 
         $user->update($validated);
-
-        // Create or update Biodata record
-        Biodata::updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'nomor_pendaftaran' => $validated['nisn'] ?? null,
-                'nama_lengkap' => $validated['nama'] ?? null,
-                'tempat_lahir' => $validated['tempat_lahir'] ?? null,
-                'tanggal_lahir' => $validated['tanggal_lahir'] ?? null,
-                'jenis_kelamin' => $validated['jenis_kelamin'] ?? null,
-            ]
-        );
 
         // Simpan data dan biarkan user tetap di halaman user.
         // Data sudah tersimpan dan akan terlihat pada halaman admin untuk verifikasi.

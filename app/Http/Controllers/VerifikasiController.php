@@ -157,16 +157,4 @@ class VerifikasiController extends Controller
 
         return Storage::download($path);
     }
-
-    /**
-     * Get user detail untuk modal seleksi admin
-     */
-    public function getUserDetail(User $user)
-    {
-        $user->load('biodata');
-        
-        return response()->json([
-            'user' => $user,
-        ]);
-    }
 }
